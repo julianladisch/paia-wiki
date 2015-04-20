@@ -75,7 +75,21 @@ Without `option.id` the option is always a default.
         "amount": "0 EUR"
       }
     ]
-  },
+  }
+}
+```
 
+Possible confirmation request
+
+```
+{
+  "http://example.org/confirm/fee": true,
+  "http://example.org/confirm/storage": [
+    "http://example.org/storage/desk"
+  ],
+  "http://example.org/confirm/survey": [
+    "http://example.org/purpose/research",
+    "http://example.org/purpose/fun"
+  ]
 }
 ```

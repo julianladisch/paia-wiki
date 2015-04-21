@@ -93,3 +93,9 @@ Possible confirmation request
   ]
 }
 ```
+
+Open questions: 
+
+* what kind of error to return on missing confirmation (HTTP 402 Payment Required?)
+* how to indicate which confirmations have still required and which are fulfilled
+* ...

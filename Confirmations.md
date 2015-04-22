@@ -1,10 +1,9 @@
 As noted in https://github.com/gbv/paia/issues/31 and https://github.com/gbv/paia/issues/36 there should be a way to confirm and/or select before an action. A list of confirmation objects can be used for this purpose:
 
-## confirmation data type
+## confirmation request
 
-A **confirmation** is a key-value mapping from `type` URIs (indicating the type of confirmation e.g. storage selection, confirmation of fees, special loan conditions...) to key-value objects with the following keys:
+A **confirmation request** is a key-value mapping from `type` URIs (indicating the type of confirmation e.g. storage selection, confirmation of fees, special loan conditions...) to key-value objects with the following keys:
 
-* `required (0..1)`: true/false whether the confirmation is mandatory (false by default)
 * `multiple (0..1)`: true/false whether multiple options can be selected (false by default)
 * `option`(1..n)`: unordered list of options to select from.
 * `option.id` (0..1)?`: URI identifying the option. If not given, `option.default` MUST be true or not given.
@@ -12,11 +11,31 @@ A **confirmation** is a key-value mapping from `type` URIs (indicating the type 
 * `option.about` (1..1)?: Textual description or label of the option
 * `option.default` (0..1): true/false whether this option is selected by default (if not given: false if option.id is given, true otherwise)
 
-Options with default can be confirmed with `true`. Otherwise an item or multiple items (if multiple=true) can or must be selected by returning the corresponding `option.id`. 
+The confirmation request, if given, MUST include all confirmations, including those already confirmed by the client with a confirmation response.
+
+The field `doc.error` MUST also be set if confirmations are given.
+
+## confirmation response
+
+Sent with request parameter `confirm` having one of this values:
+
+* `true` to confirm all defaults values (this is the default for backwards compatibility with clients unaware of confirmations. These clients will not be able to perform actions with required confirmations but just show the document error.
+* `false` to not confirm defaults *nor* actions that don't require any confirmation at all (to preview options and possible confirmations)
+* A key-value mapping from confirmation types to selected options:
+    * options with default can be confirmed with `true`
+    * otherwise an item (by its `option.id`) or multiple items (by a list of `option.id` if `multiple` is `true`)
+
+Open questions: 
+
+* how to handle broken confirmation responses, e.g. unknown/invalid identifiers?
+
+
+
+All Default values MUST explicitly be confirmed too:
 
 ## examples
 
-Confirmation request, sent by the server:
+Confirmation request, sent by the server. Server MUST always send all confirmations, even if some of them have already been confirmed by the client:
 
 ```json
 {
@@ -81,7 +100,7 @@ Confirmation request, sent by the server:
 }
 ```
 
-Confirmation sent by the client:
+Confirmation response sent by the client:
 
 ```
 {
@@ -95,10 +114,3 @@ Confirmation sent by the client:
   ]
 }
 ```
-
-Open questions: 
-
-* Remove field `required` because all confirmations are required (implicitly by default or explicitly otherwise)
-* what kind of error to return on missing confirmation?
-* how to indicate which confirmations have still required and which are fulfilled
-* ...

@@ -2,7 +2,7 @@ As noted in https://github.com/gbv/paia/issues/31 and https://github.com/gbv/pai
 
 ## confirmation request
 
-A **confirmation request** is a key-value mapping from `type` URIs (indicating the type of confirmation e.g. storage selection, confirmation of fees, special loan conditions...) to key-value objects with the following keys:
+A **confirmation request** (field `doc.confirm`) is a key-value mapping from `type` URIs (indicating the type of confirmation e.g. storage selection, confirmation of fees, special loan conditions...) to key-value objects with the following keys:
 
 * `multiple (0..1)`: true/false whether multiple options can be selected (false by default)
 * `option`(1..n)`: unordered list of options to select from.

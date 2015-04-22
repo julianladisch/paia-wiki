@@ -2,7 +2,7 @@ As noted in https://github.com/gbv/paia/issues/31 and https://github.com/gbv/pai
 
 ## confirmation request
 
-A **confirmation request** (field `doc.confirm`) is a key-value mapping from `type` URIs (indicating the type of confirmation e.g. storage selection, confirmation of fees, special loan conditions...) to key-value objects with the following keys:
+A **confirmation request** (field `doc.confirm`) is a non-empty key-value mapping from `type` URIs (indicating the type of confirmation e.g. storage selection, confirmation of fees, special loan conditions...) to key-value objects with the following keys:
 
 * `multiple (0..1)`: true/false whether multiple options can be selected (false by default)
 * `option`(1..n)`: unordered list of options to select from.
@@ -11,9 +11,9 @@ A **confirmation request** (field `doc.confirm`) is a key-value mapping from `ty
 * `option.about` (1..1)?: Textual description or label of the option
 * `option.default` (0..1): true/false whether this option is selected by default (if not given: false if option.id is given, true otherwise)
 
-The confirmation request, if given, MUST include all confirmations, including those already confirmed by the client with a confirmation response.
+The confirmation request, if given by `doc.confirm`, MUST include all confirmations, including those already confirmed by the client with a confirmation response. It's up to the client how to show multiple confirmations (step-by-step, all-in-one-screen...).
 
-The field `doc.error` MUST also be set if confirmations are given.
+The field `doc.error` MUST also be given if `doc.confirm` exists (for backwards compatibility with clients not aware of confirmations)
 
 ## confirmation response
 

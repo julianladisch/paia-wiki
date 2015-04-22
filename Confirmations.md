@@ -22,13 +22,11 @@ Sent with request parameter `confirm` having one of this values:
 * `true` to confirm all defaults values (this is the default for backwards compatibility with clients unaware of confirmations. These clients will not be able to perform actions with required confirmations but just show the document error.
 * `false` to not confirm defaults *nor* actions that don't require any confirmation at all (to preview options and possible confirmations)
 * A key-value mapping from confirmation types to selected options:
+
     * options with default can be confirmed with `true`
-    * otherwise an item (by its `option.id`) or multiple items (by a list of `option.id` if `multiple` is `true`). Default values MUST explicitly be included.
-
-Open questions: 
-
-* how to handle broken confirmation responses, e.g. unknown/invalid identifiers?
-
+    * otherwise an item (by its `option.id`) or multiple items (by a list of `option.id` if `multiple` is `true`).
+  
+    Default values MUST explicitly be included too.
 
 ## examples
 
@@ -111,3 +109,9 @@ Confirmation response sent by the client:
   ]
 }
 ```
+
+## Open questions
+
+* How to handle broken (not to confuse with missing) confirmation responses:
+    * additional confirmation types not known by the server: just ignore?
+    * unknown identifiers: just ignore?

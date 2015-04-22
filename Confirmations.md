@@ -4,17 +4,19 @@ As noted in https://github.com/gbv/paia/issues/31 and https://github.com/gbv/pai
 
 A **confirmation** is a key-value mapping from `type` URIs (indicating the type of confirmation e.g. storage selection, confirmation of fees, special loan conditions...) to key-value objects with the following keys:
 
-* `required (1..1)`: true/false whether the confirmation is mandatory 
-* `multiple (1..1)`: true/false whether multiple options can be selected
-* `option`(0..n)`: unordered list of options to select from. A one-item list can be confirmed with "yes". A longer list requires or suggests to select an item from (e.g. a storage)
-* `option.id` (0..1)?`: URI identifying the option
-* `option.amount` (1..1): Fee amount. Can be zero if no fee is expected.
+* `required (0..1)`: true/false whether the confirmation is mandatory (false by default)
+* `multiple (0..1)`: true/false whether multiple options can be selected (false by default)
+* `option`(1..n)`: unordered list of options to select from.
+* `option.id` (0..1)?`: URI identifying the option. If not given, `option.default` MUST be true or not given.
+* `option.amount` (0..1): Optional fee amount. Values matching `/^0+\.00/` MUST be treated equal no amount.
 * `option.about` (1..1)?: Textual description or label of the option
-* `option.default`(0..1): true/false whether this option is selected by default
+* `option.default` (0..1): true/false whether this option is selected by default (if not given: false if option.id is given, true otherwise)
 
-Without `option.id` the option is always a default.
+Options with default can be confirmed with `true`. Otherwise an item or multiple items (if multiple=true) can or must be selected by returning the corresponding `option.id`. 
 
 ## examples
+
+Confirmation request, sent by the server:
 
 ```json
 {
@@ -79,7 +81,7 @@ Without `option.id` the option is always a default.
 }
 ```
 
-Possible confirmation request
+Confirmation sent by the client:
 
 ```
 {
@@ -96,6 +98,7 @@ Possible confirmation request
 
 Open questions: 
 
-* what kind of error to return on missing confirmation (HTTP 402 Payment Required?)
+* Remove field `required` because all confirmations are required (implicitly by default or explicitly otherwise)
+* what kind of error to return on missing confirmation?
 * how to indicate which confirmations have still required and which are fulfilled
 * ...

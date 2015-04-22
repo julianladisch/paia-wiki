@@ -23,15 +23,12 @@ Sent with request parameter `confirm` having one of this values:
 * `false` to not confirm defaults *nor* actions that don't require any confirmation at all (to preview options and possible confirmations)
 * A key-value mapping from confirmation types to selected options:
     * options with default can be confirmed with `true`
-    * otherwise an item (by its `option.id`) or multiple items (by a list of `option.id` if `multiple` is `true`)
+    * otherwise an item (by its `option.id`) or multiple items (by a list of `option.id` if `multiple` is `true`). Default values MUST explicitly be included.
 
 Open questions: 
 
 * how to handle broken confirmation responses, e.g. unknown/invalid identifiers?
 
-
-
-All Default values MUST explicitly be confirmed too:
 
 ## examples
 

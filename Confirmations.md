@@ -13,7 +13,7 @@ A **confirmation request** (field `doc.confirm`) is a non-empty key-value mappin
 
 The confirmation request, if given by `doc.confirm`, MUST include all confirmations, including those already confirmed by the client with a confirmation response. It's up to the client how to show multiple confirmations (step-by-step, all-in-one-screen...).
 
-The field `doc.error` MUST also be given if `doc.confirm` exists (for backwards compatibility with clients not aware of confirmations)
+The field `doc.error` MUST also be given if `doc.confirm` exists (for backwards compatibility with clients not aware of confirmations).
 
 ## confirmation response
 
@@ -27,6 +27,8 @@ Sent with request parameter `confirm` having one of this values:
     * a non-empty list of ids selected from possible options (`option.id`) if `multiple` is set to `true` for this confirmation type
     * the value `true` if the option has at least one default value (`option.default`).
   
+    A PAIA server SHOULD ignore all unknown or additional confirmation types and all unknown option ids in a confirmation response.
+
 ## examples
 
 Confirmation request, sent by the server. Server MUST always send all confirmations, even if some of them have already been confirmed by the client:
@@ -108,9 +110,3 @@ Confirmation response sent by the client:
   ]
 }
 ```
-
-## Open questions
-
-* How to handle broken (not to confuse with missing) confirmation responses:
-    * additional confirmation types not known by the server: just ignore?
-    * unknown identifiers: just ignore?

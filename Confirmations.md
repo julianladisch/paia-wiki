@@ -6,10 +6,10 @@ A **confirmation request** (field `doc.confirm`) is a non-empty key-value mappin
 
 * `multiple (0..1)`: true/false whether multiple options can be selected (false by default)
 * `option`(1..n)`: unordered list of options to select from.
-* `option.id` (0..1)?`: URI identifying the option. If not given, `option.default` MUST be true or not given.
+* `option.id` (0..1)?`: URI identifying the option. If this field is not given, `option.default` MUST either be true or not given.
 * `option.amount` (0..1): Optional fee amount. Values matching `/^0+\.00/` and MUST be treated equal to no amount and vice versa.
 * `option.about` (1..1)?: Textual description or label of the option
-* `option.default` (0..1): true/false whether this option is selected by default (if not given: false if option.id is given, true otherwise)
+* `option.default` (0..1): true/false whether this option is selected by default. If this field is not given its value can be assumed as `false` when field `option.id` is given and `true` otherwise.
 
 The confirmation request, if given by `doc.confirm`, MUST include all confirmations, including those already confirmed by the client with a confirmation response. It's up to the client how to show multiple confirmations (step-by-step, all-in-one-screen...).
 
@@ -21,13 +21,12 @@ Sent with request parameter `confirm` having one of this values:
 
 * `true` to confirm all defaults values (this is the default for backwards compatibility with clients unaware of confirmations. These clients will not be able to perform actions with required confirmations but just show the document error.
 * `false` to not confirm defaults *nor* actions that don't require any confirmation at all (to preview options and possible confirmations)
-* A key-value mapping from confirmation types to selected options:
+* A key-value mapping from confirmation types to selected options. All options MUST be included with any of the following values:
 
-    * options with default can be confirmed with `true`
-    * otherwise an item (by its `option.id`) or multiple items (by a list of `option.id` if `multiple` is `true`).
+    * an id selected from possible options (`option.id`). This equals to a list with one id.
+    * a non-empty list of ids selected from possible options (`option.id`) if `multiple` is set to `true` for this confirmation type
+    * the value `true` if the option has at least one default value (`option.default`).
   
-    Default values MUST explicitly be included too.
-
 ## examples
 
 Confirmation request, sent by the server. Server MUST always send all confirmations, even if some of them have already been confirmed by the client:

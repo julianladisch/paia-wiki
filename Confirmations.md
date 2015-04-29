@@ -7,7 +7,7 @@ A **confirmation request** (field `doc.confirm`) is a non-empty key-value mappin
 * `multiple (0..1)`: true/false whether multiple options can be selected (false by default)
 * `option`(1..n)`: unordered list of options to select from.
 * `option.id` (0..1)?`: URI identifying the option. If not given, `option.default` MUST be true or not given.
-* `option.amount` (0..1): Optional fee amount. Values matching `/^0+\.00/` MUST be treated equal no amount.
+* `option.amount` (0..1): Optional fee amount. Values matching `/^0+\.00/` and MUST be treated equal to no amount and vice versa.
 * `option.about` (1..1)?: Textual description or label of the option
 * `option.default` (0..1): true/false whether this option is selected by default (if not given: false if option.id is given, true otherwise)
 

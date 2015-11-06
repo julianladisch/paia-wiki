@@ -1,1 +1,1 @@
-As noted in https://github.com/gbv/paia/issues/31 and https://github.com/gbv/paia/issues/36 there should be a way to confirm and/or select before an action. The [confirmations branch](https://github.com/gbv/paia/tree/confirmations) contains a draft of this feature, details still to be discussed. A snapshot of specification can be found at http://gbv.github.io/paia/confirmations.html
+Added in PAIA 1.3.0

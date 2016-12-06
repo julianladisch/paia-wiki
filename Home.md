@@ -18,4 +18,4 @@ This wiki contains additional information and references about **[Patrons Accoun
 
 # Issue details
 
-* [[Confirmations]]
+* ...
